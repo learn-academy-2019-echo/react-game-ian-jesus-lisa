@@ -10,18 +10,18 @@ class Board extends React.Component {
     }
   }
 
-  handleClick(i) {                                  //Called from onClick event in Square
-    const squares = this.state.squares.slice();
+  handleClick = (i) => {                                  //Called from onClick event in Square
+    const squares = this.state.squares.slice();         
     squares[i] = this.state.xNextPlayer ? 'X' : 'O';  //Set the clicked squares array element to x or o
     const winner = this.findWinner(squares); 
-    console.log(winner)
     this.setState({
       squares: squares,                             // set the state of squares so that the value is contained within the array
       xNextPlayer: !this.state.xNextPlayer,          //CHange boolean value for the next player
     });
+    return winner
   }
 
-  handleSquare(i) {                           //on a click from Square, set value to the id of the squares array and display on the button
+  handleSquare(i) {                           //on a click from Square, set value to the id of the squares array and display X or O on the button
     return (
       <Square
         value={this.state.squares[i]}
@@ -31,32 +31,27 @@ class Board extends React.Component {
   }
 
   findWinner(squares) {
-          console.log('findWinner', squares)
-          const winArray = [                //Set the winning conditions into an array of arrays
-             [0,1,2],
-             [3,4,5],
-             [6,7,8],
-             [0,3,6],
-             [1,4,7],
-             [2,5,8],
-             [0,4,8],
-             [2,4,6]
-              ];
+    const winArray = [                //Set the winning conditions into an array of arrays
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]
+     ];
           
-          for (let i=0; i<winArray.length;i++){                     // for loop to check if there are three in a row of the same character
-              const [a,b,c] = winArray[i];
-              if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-                  console.log(squares[a])
-                  return squares[a]
-              }
-              else
-                return null
-          }
-  }
+    for (let i=0; i < winArray.length ; i++){                     // for loop to check if there are three in a row of the same character
+        let [a,b,c] = winArray[i];                                
+            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {   //
+                return squares[a]                                     //return the letter X or O when a winning condition is present
+            }
+        }
+    }
   
   render() {
     const status = 'Next player: ' + (this.state.xNextPlayer ? 'X' : 'O');     //Display on the screen which player's turn it is
-    const playerWin = this.state.winner                                                          
     return (
       <div>
         <div className="status">{status}</div>
@@ -76,7 +71,7 @@ class Board extends React.Component {
           {this.handleSquare(8)}
         </div>
         <div className="player-win">
-            The winning player is {playerWin}
+            The winning player is {this.findWinner(this.state.squares)}
         </div>
       </div>
     );
