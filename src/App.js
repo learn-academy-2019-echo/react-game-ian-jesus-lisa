@@ -1,18 +1,16 @@
-import React from 'react';
+  
+import React, { Component } from 'react';
+import Board from './Board.js';
 import './App.css';
-import Board from './Board'
-import Square from './Square'
 
-
-class App extends React.Component{
- 
-  render(){
+function App() {
   return (
-    <div>
-    <Board />
-       
+    <div className="App">
+    <div className="game-board">
+      <Board />
     </div>
-    );
-  }
+  </div>
+  );
 }
+
 export default App;
